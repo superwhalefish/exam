@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    username: root
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+  freemarker:
+    cache: true
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html
+
+server:
+  port: 8080
+  servlet:
+    context-path: /MyTest
+mybatis-plus:
+  mapper-locations:
+  - classpath:mapper/*.xml
+  type-aliases-package: com.yy.spring.entity
