@@ -13,10 +13,6 @@ import com.yy.spring.service.UserService;
 public class UserController {
 	@Autowired
 private UserService userService;
-	@PostMapping("/getuserall")
-	public List<User> getUserAll() {
-		return userService.getUser();
-		
-	}
+
 	
 }

@@ -11,10 +11,15 @@ import com.yy.spring.entity.User;
 public class UserServiceImp implements UserService {
 	@Autowired
 	private UserDao userDao;
+/**
+ * 根据账户查询
+ */
 	@Override
-	public List<User> getUser() {
+	public User findUserByUserName(String username) {
 		// TODO Auto-generated method stub
-		List<User> selectList = userDao.selectList(null);
+		System.out.println(2);
+		User selectList = userDao.selectByUsername(username);
+		System.out.println(1);
 		return selectList;
 	}
 

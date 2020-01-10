@@ -9,5 +9,5 @@ public interface UserService {
 	 * 获取全部信息
 	 * @return
 	 */
-List<User> getUser();
+User findUserByUserName(String username);
 }

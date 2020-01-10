@@ -12,7 +12,7 @@
 </head>
 <body>
 
-	<div
+	<div 
 		style="margin-top: 180px; margin-left: 600px; width: 400px; height: 400px;">
 		<div class="easyui-panel" title="用户登录页面" id="uwin">
 			<div style="padding: 20px; margin-left: 20px;">
@@ -20,11 +20,11 @@
 					<table cellpadding="5">
 						<tr>
 							<td>用户名：</td>
-							<td><input id="username" class="easyui-textbox" > </td>
+							<td><input id="username" name="username" class="easyui-textbox" > </td>
 						</tr>
 						<tr>
 							<td>密码：</td>
-							<td><input id="userpassword" type="password" class="easyui-textbox" ></td>
+							<td><input id="userpassword" name="userpassword" type="password" class="easyui-textbox" ></td>
 						</tr>
 
 					</table>
@@ -38,6 +38,16 @@
 			</div>
 		</div>
 	</div>
-
+	<script>
+	function loginIn(){
+	$.messager.alert("提示","这是登陆")
+	$.post("login",{
+	username:$("#username").val(),
+	userpassword:$("#userpassword").val()
+	},function(res){
+	$.messager.alert("提示",res)
+	})
+	}
+	</script>
 </body>
 </html>
