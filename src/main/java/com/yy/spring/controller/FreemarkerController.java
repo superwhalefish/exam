@@ -24,6 +24,12 @@ public class FreemarkerController {
 	public String teacherindex() {
 		return "/teacher/index";
 	}
+	@RequestMapping(value = "/teacher/system")
+	public String teachersystem() {
+		return "/teacher/system";
+		
+	}
+	
 	@RequestMapping(value = "/student/index")
 	public String studentindex() {
 		return "/student/index";
@@ -32,6 +38,11 @@ public class FreemarkerController {
 	public String studentexam() {
 		return "/student/exam";
 	}
+	@RequestMapping("/noAuth")
+	public String noAuth() {
+		return "/noAuth";
+	}
+	
 	@RequestMapping("/login")
 	@ResponseBody
 	public String login(String username,String userpassword,Model model) {

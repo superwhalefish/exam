@@ -17,9 +17,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User findUserByUserName(String username) {
 		// TODO Auto-generated method stub
-		System.out.println(2);
 		User selectList = userDao.selectByUsername(username);
-		System.out.println(1);
 		return selectList;
 	}
 

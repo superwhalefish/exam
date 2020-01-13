@@ -16,5 +16,8 @@ server:
     context-path: /MyTest
 mybatis-plus:
   mapper-locations:
-  - classpath:mapper/*.xml
+  - classpath:/mapper/*.xml
   type-aliases-package: com.yy.spring.entity
+  configuration:
+    map-underscore-to-camel-case: true
+      
