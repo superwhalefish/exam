@@ -12,7 +12,7 @@
 </head>
 <body>
 
-	<div 
+	<div
 		style="margin-top: 180px; margin-left: 600px; width: 400px; height: 400px;">
 		<div class="easyui-panel" title="用户登录页面" id="uwin">
 			<div style="padding: 20px; margin-left: 20px;">
@@ -20,11 +20,13 @@
 					<table cellpadding="5">
 						<tr>
 							<td>用户名：</td>
-							<td><input id="username" name="username" class="easyui-textbox" > </td>
+							<td><input id="username" name="username"
+								class="easyui-textbox"></td>
 						</tr>
 						<tr>
 							<td>密码：</td>
-							<td><input id="userpassword" name="userpassword" type="password" class="easyui-textbox" ></td>
+							<td><input id="userpassword" name="userpassword"
+								type="password" class="easyui-textbox"></td>
 						</tr>
 
 					</table>
@@ -39,15 +41,27 @@
 		</div>
 	</div>
 	<script>
-	function loginIn(){
-	$.messager.alert("提示","这是登陆")
-	$.post("login",{
-	username:$("#username").val(),
-	userpassword:$("#userpassword").val()
-	},function(res){
-	$.messager.alert("提示",res)
-	})
-	}
+		function loginIn() {
+			$.messager.alert("提示", "这是登陆")
+			$.post("user/login", {
+				username : $("#username").val(),
+				userpassword : $("#userpassword").val()
+			}, function(res) {
+				if (res == 0) {
+					$.messager.alert("提示", "管理员登陆");
+				} else if (res == 1) {
+					$.messager.alert("提示", "教师登陆");
+					location.href="teacher/index";
+				} else if (res == 2) {
+					$.messager.alert("提示", "学生登陆");
+					location.href="student/index";
+				} else if (res == 3) {
+					$.messager.alert("提示", "用户不存在");
+				} else if (res == 4) {
+					$.messager.alert("提示", "密码错误");
+				}
+			})
+		}
 	</script>
 </body>
 </html>

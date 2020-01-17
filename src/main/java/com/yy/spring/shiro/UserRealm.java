@@ -1,13 +1,16 @@
 package com.yy.spring.shiro;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yy.spring.entity.User;
@@ -24,7 +27,17 @@ public class UserRealm extends AuthorizingRealm{
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		// TODO Auto-generated method stub
 		System.out.println("执行授权逻辑");
-		return null;
+		//给资源进行授权
+		 SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		
+		 //查询当前用户权限
+		 //获取当前登陆用户信息
+		 Subject subject = SecurityUtils.getSubject();
+		 User user = (User)subject.getPrincipal();
+		 
+		 //添加资源的授权字符 串	
+		 //info.addStringPermission("user:exam");
+		return info;
 	}
 /**
  * 执行认证逻辑
@@ -43,7 +56,7 @@ public class UserRealm extends AuthorizingRealm{
 		}
 		//判断密码
 		//第一个参数是subject.login(token)的数据    第二个参数是数据库密码    第三个参数是shiro的名字
-		return new SimpleAuthenticationInfo("",user.getUserpassword(),"");
+		return new SimpleAuthenticationInfo(user.getId(),user.getUserpassword(),"");
 	}
 
 }

@@ -27,9 +27,8 @@ public class FreemarkerController {
 	@RequestMapping(value = "/teacher/system")
 	public String teachersystem() {
 		return "/teacher/system";
-		
 	}
-	
+	//git更新
 	@RequestMapping(value = "/student/index")
 	public String studentindex() {
 		return "/student/index";
@@ -43,34 +42,5 @@ public class FreemarkerController {
 		return "/noAuth";
 	}
 	
-	@RequestMapping("/login")
-	@ResponseBody
-	public String login(String username,String userpassword,Model model) {
-		System.out.println(username);
-		/**
-		 * shiro编写认证
-		 */
-		//获取subject
-		Subject subject = SecurityUtils.getSubject();
-		//封装用户数据
-		UsernamePasswordToken token =new UsernamePasswordToken(username,userpassword);
-		//执行登陆方法
-		try {
-			subject.login(token);
-			//登陆成功
-			return "登陆成功";
-		} catch (UnknownAccountException e) {
-			//登陆失败:用户名不存在
-			return "用户名不存在";
-			// TODO: handle exception
-		}catch (IncorrectCredentialsException e) {
-			// TODO: handle exception
-			//登陆失败:用户名不存在
-			model.addAttribute("msg", "密码错误");
-			//重定向发送
-			//return "redirect:/tologin";
-			return "密码错误";
-		}
-		
-	}
+
 }
