@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.ui.Model;
 
+import com.yy.spring.entity.Tree;
 import com.yy.spring.entity.User;
 
 public interface UserService {
@@ -20,4 +21,9 @@ User findUserByUserName(String username);
  * @return
  */
 Integer tologin(String username,String userpassword);
+/**
+ * 获取权限树
+ * @return
+ */
+List getTree();
 }

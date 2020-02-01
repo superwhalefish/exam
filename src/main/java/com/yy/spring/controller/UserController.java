@@ -31,8 +31,10 @@ private UserService userService;
 	 * 获取权限树
 	 * @return
 	 */
+	@PostMapping("/user/getTree")
 	public List<Tree> getTree(){
-		return null;
+		System.out.println("haha ");
+		return userService.getTree();
 		
 	}
 	

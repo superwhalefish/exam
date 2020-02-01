@@ -7,7 +7,7 @@ public class Module {
 private Integer id;
 private String module;
 private String url;
-private Integer paremtid;
+private Integer parentid;
 public Module() {
 	super();
 	// TODO Auto-generated constructor stub
@@ -37,18 +37,20 @@ public void setUrl(String url) {
 	this.url = url;
 }
 
-public Integer getParemtid() {
-	return paremtid;
+public Integer getParentid() {
+	return parentid;
 }
 
-public void setParemtid(Integer paremtid) {
-	this.paremtid = paremtid;
+public void setParentid(Integer parentid) {
+	this.parentid = parentid;
 }
 
 @Override
 public String toString() {
-	return "Moudle [id=" + id + ", module=" + module + ", url=" + url + ", paremtid=" + paremtid + "]";
+	return "Module [id=" + id + ", module=" + module + ", url=" + url + ", parentid=" + parentid + "]";
 }
+
+
 
 
 }

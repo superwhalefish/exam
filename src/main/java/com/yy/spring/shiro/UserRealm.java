@@ -34,7 +34,6 @@ public class UserRealm extends AuthorizingRealm{
 		 //获取当前登陆用户信息
 		 Subject subject = SecurityUtils.getSubject();
 		 User user = (User)subject.getPrincipal();
-		 
 		 //添加资源的授权  	字符串需和shiro配置认证授权perms[]内的内容保持一直
 		 //info.addStringPermission("user:exam");
 		return info;

@@ -14,13 +14,6 @@ public Integer getId() {
 public void setId(Integer id) {
 	this.id = id;
 }
-
-public String getPath() {
-	return path;
-}
-public void setPath(String path) {
-	this.path = path;
-}
 public String getText() {
 	return text;
 }
@@ -33,20 +26,21 @@ public String getState() {
 public void setState(String state) {
 	this.state = state;
 }
+public String getPath() {
+	return path;
+}
+public void setPath(String path) {
+	this.path = path;
+}
 public List<Tree> getChildren() {
 	return children;
 }
 public void setChildren(List<Tree> children) {
 	this.children = children;
 }
-public Tree() {
-	super();
-	// TODO Auto-generated constructor stub
-}
 @Override
 public String toString() {
 	return "Tree [id=" + id + ", text=" + text + ", state=" + state + ", path=" + path + ", children=" + children + "]";
 }
-
 
 }
