@@ -3,7 +3,6 @@ package com.yy.spring.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import lombok.Data;
 @TableName(value = "user")
 public class User {
 	private Integer id;

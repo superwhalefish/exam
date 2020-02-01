@@ -33,9 +33,9 @@ public class ShiroController {
 		 */
 		Map<String,String> filterMap=new LinkedHashMap<String, String>();
 		//放行页面
-		filterMap.put("/student/index", "anon");
+		//filterMap.put("/student/index", "anon");
 		//授权过滤器
-		filterMap.put("/teacher/system", "perms[user:system]");
+		//filterMap.put("/teacher/system", "perms[user:system]");
 		//拦截页面
 		filterMap.put("/student/*", "authc");
 		filterMap.put("/teacher/*", "authc");

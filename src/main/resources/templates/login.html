@@ -47,8 +47,9 @@
 				username : $("#username").val(),
 				userpassword : $("#userpassword").val()
 			}, function(res) {
-				if (res == 0) {
+				if (res == 5) {
 					$.messager.alert("提示", "管理员登陆");
+					location.href="system/index";
 				} else if (res == 1) {
 					$.messager.alert("提示", "教师登陆");
 					location.href="teacher/index";

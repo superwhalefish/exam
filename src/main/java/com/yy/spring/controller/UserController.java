@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yy.spring.entity.Tree;
 import com.yy.spring.entity.User;
 import com.yy.spring.service.UserService;
 
@@ -16,9 +17,23 @@ import com.yy.spring.service.UserService;
 public class UserController {
 	@Autowired
 private UserService userService;
+	/**
+	 * 用户登陆判定
+	 * @param username
+	 * @param userpassword
+	 * @return
+	 */
 	@RequestMapping("/user/login")
 	public Integer login(String username,String userpassword) {
 		return userService.tologin(username, userpassword);
+	}
+	/**
+	 * 获取权限树
+	 * @return
+	 */
+	public List<Tree> getTree(){
+		return null;
+		
 	}
 	
 }

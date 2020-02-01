@@ -21,7 +21,7 @@ public class UserRealm extends AuthorizingRealm{
 	@Autowired
 	private UserService userService;
 /**
- * 执行授权逻辑
+ * 执行授权逻辑 授权认证
  */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -35,12 +35,12 @@ public class UserRealm extends AuthorizingRealm{
 		 Subject subject = SecurityUtils.getSubject();
 		 User user = (User)subject.getPrincipal();
 		 
-		 //添加资源的授权字符 串	
+		 //添加资源的授权  	字符串需和shiro配置认证授权perms[]内的内容保持一直
 		 //info.addStringPermission("user:exam");
 		return info;
 	}
 /**
- * 执行认证逻辑
+ * 执行认证逻辑 登陆认证
  */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
