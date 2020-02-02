@@ -3,6 +3,8 @@ package com.yy.spring.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -41,6 +43,18 @@ public class FreemarkerController {
 	public String noAuth() {
 		return "/noAuth";
 	}
-	
+	//teacher页面跳转
+	//语文
+	@RequestMapping("/teacher/yuwen")
+	public String yuwen(Integer mid,Model model) {
+		System.out.println(mid);
+		model.addAttribute("mid", mid);
+		return "/teacher/yuwen";
+	}
+	//数学
+	@RequestMapping("/teacher/shuxue")
+	public String shuxue() {
+		return "/teacher/shuxue";
+	}
 
 }

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>语文试题管理</title>
+<link rel="stylesheet" href="/MyTest/js/easyui/themes/icon.css" />
+<link rel="stylesheet"
+	href="/MyTest/js/easyui/themes/default/easyui.css" />
+<script type="text/javascript" src="/MyTest/js/easyui/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	$(function(){
+		init();
+	})
+	
+	function init(){
+		$('#dg').datagrid({    
+		    url:'/MyTest/exam/getExam', 
+		    toolbar:"#exambar",
+		    queryParams: {
+				mid: #{mid},
+			},
+			fixed:true,
+			method : 'post',
+			pagination : true,
+			fitColumns : true,
+			singleSelect : true,
+		    columns:[[    
+		        {field:'id',title:'试卷编号'},    
+		        {field:'ename',title:'试卷名称',formatter:formatterename},    
+		        {field:'estarttime',title:'开始考试时间'},    
+		        {field:'eendtime',title:'结束考试时间'},
+		        {field:"estate",title:"是否发放试题",formatter:formatterisestate},
+		        {field:"caozuo",title:"操作",formatter:formattercaozuo}
+		    ]]
+		    
+		});  
+	}
+	function formatterename(value, row, index){
+		return "<a href='javascript:alert('跳转')'>"+row.ename+"<a/>";
+	}
+	function formatterisestate (value, row, index){
+		var str;
+		
+		if(row.estate==1){
+			 str ="<p style='color:blue'>已发放</p>"; 
+		}else if(row.estate==2){
+			str ="<p style='color:red'>待发放</p>"; 
+		}
+		return str; 
+		
+		 
+	}
+	function formattercaozuo(value, row, index) {
+		return "<a href='javascript:edit(" + index
+		+ ")' '>试卷考试信息编辑</a> ";
+	}
+	
+	function edit(index){
+		var row=$('#dg').datagrid("getData").rows[index];
+		$('#edit_Frm').form('load',row);
+		$('#edit_dialog').dialog("open");   
+	}
+	</script>
+</head>
+<body>
+	<!-- 时间设置编辑框 -->
+	<div id="edit_dialog" class="easyui-dialog" title="考试信息编辑"
+		style="width: 400px; height: 600px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:[{
+				text:'保存',
+				handler:function(){
+				edit_save();
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				edit_clear();
+				}
+			}]">">
+		<form id="edit_Frm">
+			<table>
+				<tr>
+					<td>试卷</td>
+					<td><input class="easyui-textbox" id="edit_id" name="id" disabled="disabled"></td>
+				</tr>
+
+				<tr>
+					<td>试卷名称</td>
+					<td><input class="easyui-textbox" id="edit_ename" name="ename"></td>
+				</tr>
+				<tr>
+					<td>是否发放试题</td>
+					<td><select id="cc" class="easyui-combobox"  id="edit_estate" name="estate"
+						style="width: 80px;">
+							<option value="2">--请选择--</option>
+							<option value="1">发放试卷</option>
+							<option value="2">不发放试卷</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>考试开始时间</td>
+					<td>
+					<input  id="edit_starttime"  name="estarttime" class= "easyui-datetimebox" required ="required"/>    
+					</td>
+				</tr>
+				<tr>
+					<td>考试结束时间</td>
+					<td>
+						<input  id="edit_endtime"  name="eendtime" class= "easyui-datetimebox" required ="required"/>  
+					</td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+	<!--  <input class="easyui-switchbutton" data-options="onText:'Yes',offText:'No'"> -->
+	<div id="exambar">
+		<a href="#" class="easyui-linkbutton"
+			data-options="iconCls:'icon-edit',plain:true">修改</a> <a href="#"
+			class="easyui-linkbutton"
+			data-options="iconCls:'icon-help',plain:true">帮助</a>
+
+	</div>
+	<table id="dg"></table>
+
+</body>
+</html>
