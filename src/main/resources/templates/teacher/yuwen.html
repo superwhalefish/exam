@@ -40,7 +40,7 @@
 		});  
 	}
 	function formatterename(value, row, index){
-		return "<a href='javascript:alert('跳转')'>"+row.ename+"<a/>";
+		return "<a href='/MyTest/teacher/exam?eid="+row.id+"&ename="+row.ename+"'>"+row.ename+"<a/>";
 	}
 	function formatterisestate (value, row, index){
 		var str;
