@@ -3,9 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <title>试题管理页面</title>
+<link rel="stylesheet" href="/MyTest/js/easyui/themes/icon.css" />
+<link rel="stylesheet"
+	href="/MyTest/js/easyui/themes/default/easyui.css" />
+<script type="text/javascript" src="/MyTest/js/easyui/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+a {
+	text-decoration: none
+}
+</style>
+<script type="text/javascript">
+	$(function(){
+		init();
+	})
+	
+	function init(){
+		$('#dg').datagrid({    
+		    url:'/MyTest/examTotal/getExamTotal', 
+		    toolbar:"#exambar",
+		    queryParams: {
+				eid: #{eid},
+			},
+			fixed:true,
+			method : 'post',
+			pagination : true,
+			fitColumns : true,
+			singleSelect : true,
+		    columns:[[    
+		        {field:'id',title:'大题编号'},    
+		        {field:'examtotal',title:'题目'},    
+		        {field:'eid',title:'年纪'},    
+		        {field:'answerid',title:'答案编号'},
+		        {field:"caozuo",title:"操作",formatter:formattercaozuo}
+		    ]]
+		    
+		});  
+	}
+	function formattercaozuo(value, row, index){
+	return "<a href='javascript:edit_answer("+index+")'>编辑试题答案</a>";
+	}
+	function edit_answer(index){
+		var row=$('#dg').datagrid("getData").rows[index];
+		$('#answer').datagrid({ 
+   		    url:'/MyTest/examAnswer/getgetExamAnswer', 
+		    toolbar:"#exambar",
+		    queryParams: {
+		   	 answerid:row.answerid,
+			},
+			fixed:true,
+			method : 'post',
+			fitColumns : true,
+			singleSelect : true,
+		    columns:[[    
+		        {field:'id',title:'答案编号'},    
+		        {field:'answer',title:'答案'},    
+		        {field:'answerstate',title:'是否正确答案',formatter:formatteranswerisstatecaozuo},    
+		        {field:'answerid',title:'试题编号'},
+		        {field:"caozuo",title:"答案操作",formatter:formatteranswercaozuo},
+		        {field:"caozuoa",title:"答案状态操作",formatter:formatteranswerstatecaozuo},
+		    ]]
+   			
+});  
+		$('#edit_answer').dialog("open");   
+	}
+	function formatteranswerisstatecaozuo(value, row, index){
+		if(row.answerstate=="1"){
+			return "是";
+		}else{
+			return "否";
+		}
+	}
+	function formatteranswercaozuo(value, row, index){
+	return "<a href='javascript:edit_examanswer("+index+")'>编辑试题答案</a>";
+	}
+	/* 修改答案内容 */
+	function edit_examanswer(index){
+		var row=$('#dg').datagrid("getData").rows[index];
+		$("#answer_Frm").form("load",row);
+		$('#edit_answerconcent').dialog("open");   
+	}
+	/* 提交新答案内容 */
+	function answersave(){
+		$.messager.alert("提示","这是答案内容提交");
+	}
+	/* 关闭弹窗 */
+	function answerclear(){
+		$('#edit_answerconcent').dialog("close");  
+	}
+	/* 正确答案选项设置 */
+	function formatteranswerstatecaozuo(value, row, index){
+		return "<a href='javascript:edit_answerstate_istrue("+index+")'>设置为答案</a>  || <a href='javascript:edit_answerstate_isflase("+index+")'>取消答案</a>";
+	}
+	/* 设置为正确答案 */
+	function edit_answerstate_istrue(index){
+		$.messager.alert("提示","设置为正确答案————1");
+	}
+	/* 取消设置为正确答案 */
+	function edit_answerstate_isflase(index){
+		$.messager.alert("提示","取消设置为正确答案————2");
+	}
+	/* 刷新本页面 */
+	function reload(){
+		window.location.reload();
+	}
+	</script>
 </head>
 <body style="text-align: center;">
+	<div id="edit_answerconcent" class="easyui-dialog" title="试题答案编辑"
+		style="width: 240px; height: 140px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:[{
+				text:'保存',
+				handler:function(){
+				answersave()
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				answerclear()
+				}
+			}]">
+			<form id="answer_Frm">
+		<table>
+			<tr>
+				<td>答案编号</td>
+				<td><input class="easyui-textbox" id="edit_answerconcent_id"
+					name="id" disabled="disabled"></td>
+			</tr>
+			<tr>
+				<td>答案内容</td>
+				<td><input class="easyui-textbox"
+					id="edit_answerconcent_answer" name="answer"></td>
+			</tr>
+		</table>
+</form>
 
-	 这是第#{eid}套试卷<h2>${emamname}</h2> 
+	</div>
+
+	<div id="edit_answer" class="easyui-dialog" title="试题答案编辑"
+		style="width: 470px; height: 400px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+		<!--  -->
+		<table id="answer"></table>
+	</div>
+	<h2>
+		<a href="javascript:reload()">这是第#{eid}套试卷</a>
+	</h2>
+	<h2>${emamname}</h2>
+
+	<table id="dg"></table>
 </body>
 </html>
