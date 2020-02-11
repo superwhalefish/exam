@@ -21,4 +21,24 @@ public class ExamTotalController {
 		return examTotalService.getExamTotalByEid(eid);
 
 	}
+	/**
+	 * 修改题目
+	 * @param examTotal
+	 * @return
+	 */
+	@PostMapping("/ExamTotal/editTotalById")
+	public Integer editTotalById(ExamTotal examTotal) {
+		return examTotalService.editTotalById(examTotal);
+		
+	}
+	/**
+	 * 删除大题
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("/ExamTotal/delTotalById")
+	public Integer delTotalById(Integer id,String answerid) {
+		return examTotalService.delTotalById(id,answerid);
+		
+	}
 }

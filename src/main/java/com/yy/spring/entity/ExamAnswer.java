@@ -7,7 +7,7 @@ public class ExamAnswer {
 private Integer id;
 private String answer;
 private Integer answerstate;
-private Integer answerid;
+private String answerid;
 public Integer getId() {
 	return id;
 }
@@ -26,10 +26,11 @@ public Integer getAnswerstate() {
 public void setAnswerstate(Integer answerstate) {
 	this.answerstate = answerstate;
 }
-public Integer getAnswerid() {
+
+public String getAnswerid() {
 	return answerid;
 }
-public void setAnswerid(Integer answerid) {
+public void setAnswerid(String answerid) {
 	this.answerid = answerid;
 }
 public ExamAnswer() {

@@ -20,4 +20,6 @@ mybatis-plus:
   type-aliases-package: com.yy.spring.entity
   configuration:
     map-underscore-to-camel-case: true
-      
+logging:
+  level:
+    com.yy.spring.dao: debug

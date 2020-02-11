@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yy.spring.dao.ExamAnswerDao">
-<select id="selectByAnswerId" parameterType="int" resultType="ExamAnswer">
-SELECT id,answer,answerstate,answerid FROM `examanswer` where answerid =#{answerid};
-</select>
+	<!-- 根据题号查询该题答案 -->
+	<select id="selectByAnswerId" parameterType="int"
+		resultType="ExamAnswer">
+		SELECT id,answer,answerstate,answerid FROM `examanswer`
+		<where>
+			<if test="answerid !=null and answerid !=''">
+				and answerid=#{answerid}
+			</if>
+		</where>
+	</select>
+	<!-- 修改答案内容 -->
+	<update id="updateAnswerById" parameterType="ExamAnswer">
+		UPDATE examanswer
+		<set>
+		<if test="answer !=null and answer !=''">
+			answer=#{answer},
+		</if>
+		</set>
+		<where>
+			<if test="id !=null and id !=''"></if>
+			id=#{id}
+		</where>
+	</update>
+	<update id="updateAnswerStateById" parameterType="ExamAnswer">
+		UPDATE examanswer
+		<set>
+		<if test="answerstate !=null and  answerstate !=''">
+		answerstate=#{answerstate},
+		</if>
+			
+		</set>
+		<where>
+			<if test="id !=null and id !=''"></if>
+			id=#{id}
+		</where>
+	</update>
+	<!-- 添加试题选项 -->
+	<insert id="addExamAnswer" parameterType="String">
+	insert into examanswer (answer,answerstate,answerid) VALUES (#{a},2,#{answerid}),(#{b},2,#{answerid2}),(#{c},2,#{answerid3}),(#{d},2,#{answerid4})
+	</insert>
+	<!-- 删除选项 -->
+	<delete id="delAnswerByAnswerId" parameterType="String">
+	delete from examanswer where  answerid=#{answerid}
+	</delete>
 </mapper>

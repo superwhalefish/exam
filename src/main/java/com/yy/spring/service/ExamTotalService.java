@@ -11,5 +11,23 @@ public interface ExamTotalService {
  * @return
  */
 	List<ExamTotal> getExamTotalByEid(Integer eid);
+/**
+ * 添加试题题目
+ * @param examTotal
+ * @return
+ */
+Integer addExamTotal(ExamTotal examTotal);
+/**
+ * 修改题目
+ * @param examTotal
+ * @return
+ */
+Integer editTotalById(ExamTotal examTotal);
+/**
+ * 删除大题
+ * @param id
+ * @return
+ */
+Integer delTotalById(Integer id,String answerid);
 
 }

@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yy.spring.dao.ExamTotalDao">
-	<select id="getExamTotalByEid" parameterType="int" resultType="ExamTotal">
-	SELECT id,examtotal,eid,answerid FROM `examtotal` where eid =#{eid};
+	<select id="getExamTotalByEid" parameterType="int"
+		resultType="ExamTotal">
+		SELECT id,examtotal,eid,answerid,answerstate FROM `examtotal`
+		<where>
+			<if test="eid !=null and eid !=''">
+				and eid =#{eid}
+			</if>
+		</where>
 	</select>
+	<!-- 添加试题题目 -->
+	<insert id="addExamTotal" parameterType="ExamTotal">
+		insert into examtotal
+		(examtotal,eid,answerid,answerstate)
+		values(#{examtotal},#{eid},#{answerid},#{answerstate})
+	</insert>
+	<!-- 修改题目 -->
+	<update id="editTotalById" parameterType="ExamTotal">
+		update examtotal
+		<set>
+			<if test="examtotal !=null and examtotal !=''">
+				examtotal =#{examtotal},
+			</if>
+		</set>
+		<where>
+			<if test="id !=null and id !=''">
+				id=#{id}
+			</if>
+		</where>
+	</update>
+	<!-- 删除题目 -->
+	<delete id="delTotalById" parameterType="int">
+	delete form examtotal where id=#{id}
+	</delete>
 </mapper>

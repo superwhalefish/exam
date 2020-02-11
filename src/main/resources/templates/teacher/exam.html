@@ -24,25 +24,92 @@ a {
 	function init(){
 		$('#dg').datagrid({    
 		    url:'/MyTest/examTotal/getExamTotal', 
-		    toolbar:"#exambar",
 		    queryParams: {
 				eid: #{eid},
 			},
+			id:"examanswer",
 			fixed:true,
 			method : 'post',
 			pagination : true,
 			fitColumns : true,
+			toolbar:"#examanswertotaltoolbar",
 			singleSelect : true,
 		    columns:[[    
 		        {field:'id',title:'大题编号'},    
 		        {field:'examtotal',title:'题目'},    
-		        {field:'eid',title:'年纪'},    
+		        {field:'eid',title:'年级阶段'},    
 		        {field:'answerid',title:'答案编号'},
-		        {field:"caozuo",title:"操作",formatter:formattercaozuo}
+		        {field:'answerstate',title:'是否已有答案',formatter:formatteranswerstate},
+		        {field:"caozuo",title:"操作选项",formatter:formattercaozuo},
+		        {field:"caozuoedit",title:"操作",formatter:formattercaozuoedit},
 		    ]]
 		    
 		});  
 	}
+	/* 格式化修改列 */
+	function formattercaozuoedit(value, row, index){
+		return "<a href='javascript:edit_total("+index+")'>修改大题内容</a>  <a href='javascript:del_total("+index+")'>删除</a>";
+	}
+	/* 打开修改题目的弹窗 */
+	function edit_total(index){
+		var row=$('#dg').datagrid("getData").rows[index];
+		$("#total_Frm").form("load",row);
+		$("#edit_totalconcent").dialog("open");
+	}
+	/* 提交修改数据 */
+	function totalsave(){
+		$.post("/MyTest/ExamTotal/editTotalById",{
+			id:$("#edit_total_id").val(),
+			examtotal:$("#edit_total_examtotal").val()
+		},function(res){
+			if(res>0){
+				$('#dg').datagrid("reload");
+				$.messager.alert("提示","数据修改完毕");
+				$("#edit_totalconcent").dialog("close");
+			}else{
+				$('#dg').datagrid("reload");
+				$.messager.alert("提示","操作异常");
+				$("#edit_totalconcent").dialog("close");
+			}
+		},"json")
+	}
+	/* 关闭修改弹窗 */
+	function totalclear(){
+		$("#edit_totalconcent").dialog("close");
+	}
+	/* 删除题目 */
+	function del_total(index){
+		var row=$('#dg').datagrid("getData").rows[index];
+		$.messager.confirm('提示', '确认删除？', function(r){
+			if (r){
+			   $.post("/MyTest/ExamTotal/delTotalById",{
+				   id:row.id,
+				   answerid:row.answerid
+			   },function(res){
+				   if(res>0){
+					   $('#dg').datagrid("reload");
+						$.messager.alert("提示","删除成功");
+						$("#edit_totalconcent").dialog("close");
+				   }else{
+					   $('#dg').datagrid("reload");
+						$.messager.alert("提示","操作异常");
+						$("#edit_totalconcent").dialog("close");
+				   }
+			   },"")
+			}
+		});
+
+	}
+	function formatteranswerstate(value, row, index){
+		if(row.answerstate=="1"){
+		
+			return "<p>答案已设置</p>";
+		}else{
+			
+			return "<a href='javascript:edit_answer("+index+")' style='color:red'>请设置答案</a>";
+		}
+	}
+	/* 操作列 */
 	function formattercaozuo(value, row, index){
 	return "<a href='javascript:edit_answer("+index+")'>编辑试题答案</a>";
 	}
@@ -54,6 +121,7 @@ a {
 		    queryParams: {
 		   	 answerid:row.answerid,
 			},
+			id:"exam_answer",
 			fixed:true,
 			method : 'post',
 			fitColumns : true,
@@ -82,13 +150,27 @@ a {
 	}
 	/* 修改答案内容 */
 	function edit_examanswer(index){
-		var row=$('#dg').datagrid("getData").rows[index];
+		var row=$('#answer').datagrid("getData").rows[index];
 		$("#answer_Frm").form("load",row);
 		$('#edit_answerconcent').dialog("open");   
 	}
 	/* 提交新答案内容 */
 	function answersave(){
-		$.messager.alert("提示","这是答案内容提交");
+		$.post("/MyTest/ExamAnswer/updateAnswerById",{
+			id:$("#edit_answerconcent_id").val(),
+			answer:$("#edit_answerconcent_answer").val()
+		},function(res){
+			if(res>0){
+				$.messager.alert("提示","内容已修改");
+				$("#answer").datagrid("reload");
+				$('#edit_answerconcent').dialog("close");  
+			}else{
+				$.messager.alert("提示","操作异常");
+				$("#answer").datagrid("reload");
+				$('#edit_answerconcent').dialog("close");  
+			}
+		},"json")
+	
 	}
 	/* 关闭弹窗 */
 	function answerclear(){
@@ -100,21 +182,118 @@ a {
 	}
 	/* 设置为正确答案 */
 	function edit_answerstate_istrue(index){
-		$.messager.alert("提示","设置为正确答案————1");
+		var row=$('#answer').datagrid("getData").rows[index];
+		if(row.answerstate=="1"){
+			$.messager.alert("提示","请勿重复操作");
+		}else{
+			$.post("/MyTest/ExamAnswer/updateAnswerStateById",{
+				id:row.id,
+				answerstate:1
+			},function(res){
+				if(res>0){
+					$.messager.alert("提示","已设置为正确答案");
+					$("#answer").datagrid("reload");
+				}else{
+					$.messager.alert("提示","操作异常");
+					$("#answer").datagrid("reload");
+				}
+			},"json")
+		}
+		
 	}
 	/* 取消设置为正确答案 */
 	function edit_answerstate_isflase(index){
-		$.messager.alert("提示","取消设置为正确答案————2");
+		var row=$('#answer').datagrid("getData").rows[index];
+		if(row.answerstate=="2"){
+			$.messager.alert("提示","请勿重复操作");
+		}else{
+			$.post("/MyTest/ExamAnswer/updateAnswerStateById",{
+				id:row.id,
+				answerstate:2
+			},function(res){
+				if(res>0){
+					$.messager.alert("提示","已取消此项为正确答案");
+					$("#answer").datagrid("reload");
+				}else{
+					$.messager.alert("提示","操作异常");
+					$("#answer").datagrid("reload");
+				}
+			},"json")
+		}
+		
+		
+		
 	}
 	/* 刷新本页面 */
 	function reload(){
 		window.location.reload();
 	}
+	/* 新增试题窗口 */
+	function examtotaladd(){
+		$("#add_answerconcent").dialog("open");
+	}
+	/* 新增试题 */
+	function answeraddsave(){
+		$.post("/MyTest/Exam/AddExam",{
+			answertotal:$("#add_answertotal").val(),
+			A:$("#add_a").val(),
+			B:$("#add_b").val(),
+			C:$("#add_c").val(),
+			D:$("#add_d").val(),
+			eid: #{eid},
+		},function(res){
+			if(res>0){
+				$.messager.alert("提示","试题加入成功");
+				$("#dg").datagrid("reload");
+				$("#add_answerconcent").dialog("close");
+			}else{
+				$.messager.alert("提示","试题加入失败");
+				$("#dg").datagrid("reload");
+				$("#add_answerconcent").dialog("close");
+			}
+			
+		},"json")
+	}
 	</script>
 </head>
 <body style="text-align: center;">
+
+	<div id="edit_totalconcent" class="easyui-dialog" title="试题答案编辑"
+		style="width: 300px; height: 240px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:[{
+				text:'保存',
+				handler:function(){
+				totalsave()
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				totalclear()
+				}
+			}]">
+		<form id="total_Frm">
+			<table>
+				<tr>
+					<td>大题编号</td>
+					<td><input class="easyui-textbox" id="edit_total_id" name="id"
+						disabled="disabled" hidden="hidden"></td>
+				</tr>
+				<tr>
+					<td colspan="2"><textarea rows="4" cols="40"
+							id="edit_total_examtotal" name="examtotal"></textarea></td>
+
+					<!-- <td>内容</td>
+					<td><input class="easyui-textbox"
+						id="edit_answerconcent_answer" name="examtotal"></td> -->
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
+
 	<div id="edit_answerconcent" class="easyui-dialog" title="试题答案编辑"
-		style="width: 240px; height: 140px;"
+		style="width: 300px; height: 140px;"
 		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:[{
 				text:'保存',
 				handler:function(){
@@ -126,20 +305,20 @@ a {
 				answerclear()
 				}
 			}]">
-			<form id="answer_Frm">
-		<table>
-			<tr>
-				<td>答案编号</td>
-				<td><input class="easyui-textbox" id="edit_answerconcent_id"
-					name="id" disabled="disabled"></td>
-			</tr>
-			<tr>
-				<td>答案内容</td>
-				<td><input class="easyui-textbox"
-					id="edit_answerconcent_answer" name="answer"></td>
-			</tr>
-		</table>
-</form>
+		<form id="answer_Frm">
+			<table>
+				<tr>
+					<td>答案编号</td>
+					<td><input class="easyui-textbox" id="edit_answerconcent_id"
+						name="id" disabled="disabled"></td>
+				</tr>
+				<tr>
+					<td>答案内容</td>
+					<td><input class="easyui-textbox"
+						id="edit_answerconcent_answer" name="answer"></td>
+				</tr>
+			</table>
+		</form>
 
 	</div>
 
@@ -153,7 +332,53 @@ a {
 		<a href="javascript:reload()">这是第#{eid}套试卷</a>
 	</h2>
 	<h2>${emamname}</h2>
-
+	<!-- 数据初始表单 -->
 	<table id="dg"></table>
+	<div id="examanswertotaltoolbar">
+		<a href="javascript:examtotaladd()" class="easyui-linkbutton"
+			data-options="iconCls:'icon-add',plain:true">新增试题</a> <a href="#"
+			class="easyui-linkbutton"
+			data-options="iconCls:'icon-help',plain:true">帮助</a>
+	</div>
+	<div id="add_answerconcent" class="easyui-dialog" title="试题新增窗口"
+		style="width: 450px; height: 500px;"
+		data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true,buttons:[{
+				text:'保存',
+				handler:function(){
+				answeraddsave()
+				}
+			},{
+				text:'关闭',
+				handler:function(){
+				answeraddclear()
+				}
+			}]">
+		<form id="answer_add_Frm">
+			<table>
+				<tr>
+					<td colspan="2"><textarea rows="6" cols="63"
+							id="add_answertotal"></textarea></td>
+				</tr>
+				<tr>
+					<td>A:</td>
+					<td><input type="text" class="easyui-textbox" id="add_a"></td>
+				</tr>
+				<tr>
+					<td>B:</td>
+					<td><input type="text" class="easyui-textbox" id="add_b"></td>
+				</tr>
+				<tr>
+					<td>C:</td>
+					<td><input type="text" class="easyui-textbox" id="add_c"></td>
+				</tr>
+				<tr>
+					<td>D:</td>
+					<td><input type="text" class="easyui-textbox" id="add_d"></td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
 </body>
 </html>

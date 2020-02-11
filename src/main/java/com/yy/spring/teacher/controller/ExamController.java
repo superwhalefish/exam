@@ -19,4 +19,15 @@ private ExamService examService;
 		return examService.getExam(mid);
 		
 	}
+	@PostMapping("/Exam/AddExam")
+	public Integer addExam(String answertotal,String A,String B,String C,String D,Integer eid) {
+		System.out.println("试卷编号:"+eid);
+		System.out.println("题目:"+answertotal);
+		System.out.println("A:"+A);
+		System.out.println("B:"+B);
+		System.out.println("C:"+C);
+		System.out.println("D:"+D);
+		return examService.addExamTotalAndAnswer(answertotal,A,B,C,D,eid);
+		
+	}
 }
