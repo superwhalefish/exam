@@ -3,6 +3,7 @@ package com.yy.spring.service;
 import java.util.List;
 
 import com.yy.spring.entity.ExamTotal;
+import com.yy.spring.entity.Fenye;
 
 public interface ExamTotalService {
 /**
@@ -10,7 +11,7 @@ public interface ExamTotalService {
  * @param eid
  * @return
  */
-	List<ExamTotal> getExamTotalByEid(Integer eid);
+	Fenye<ExamTotal> getExamTotalByEid(Fenye<ExamTotal> fenye);
 /**
  * 添加试题题目
  * @param examTotal

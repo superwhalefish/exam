@@ -44,5 +44,11 @@ Integer addExamAnswer(String a, String answerid, String b, String answerid2, Str
  * @return
  */
 Integer delAnswerByAnswerId(String answerid);
+/**
+ * 查询该题是否已设置答案
+ * @param answerid
+ * @return
+ */
+Integer selectExamAnswerByAnswerId(ExamAnswer examAnswer);
 
 }

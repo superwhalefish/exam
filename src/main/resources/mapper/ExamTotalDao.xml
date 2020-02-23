@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yy.spring.dao.ExamTotalDao">
-	<select id="getExamTotalByEid" parameterType="int"
+	<select id="getExamTotalByEid" parameterType="fenye"
 		resultType="ExamTotal">
 		SELECT id,examtotal,eid,answerid,answerstate FROM `examtotal`
+		<where>
+			<if test="eid !=null and eid !=''">
+				and eid =#{eid}
+			</if>
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+	
+	<select id="getCountExamTotalByEid" parameterType="fenye" resultType="_int">
+		SELECT count(id) FROM `examtotal`
 		<where>
 			<if test="eid !=null and eid !=''">
 				and eid =#{eid}
@@ -32,6 +42,16 @@
 	</update>
 	<!-- 删除题目 -->
 	<delete id="delTotalById" parameterType="int">
-	delete form examtotal where id=#{id}
+		delete from examtotal
+		where id=#{id}
 	</delete>
+	<!-- 根据答案编号修改答案是否设置答案 -->
+	<update id="updateAnswerstateByAnswerid" parameterType="examAnswer">
+		update examtotal set answerstate=#{answerstate}
+		<where>
+			<if test="answerid !=null and answerid !=''">
+				and answerid =#{answerid}
+			</if>
+		</where>
+	</update>
 </mapper>

@@ -41,7 +41,7 @@ private ExamAnswerService examAnswerService;
 	 */
 	@PostMapping("/ExamAnswer/updateAnswerStateById")
 	public Integer updateAnswerStateById(ExamAnswer examAnswer) {
-		System.out.println(examAnswer);
+		System.out.println("数据测试"+examAnswer);
 		return examAnswerService.updateAnswerStateById(examAnswer);
 		
 	}

@@ -9,6 +9,7 @@ import com.yy.spring.dao.ExamAnswerDao;
 import com.yy.spring.dao.ExamTotalDao;
 import com.yy.spring.entity.ExamAnswer;
 import com.yy.spring.entity.ExamTotal;
+import com.yy.spring.entity.Fenye;
 
 @Service
 public class ExamTotalServiceImp implements ExamTotalService {
@@ -21,10 +22,13 @@ public class ExamTotalServiceImp implements ExamTotalService {
 	 * 获取试题大题
 	 */
 	@Override
-	public List<ExamTotal> getExamTotalByEid(Integer eid) {
+	public Fenye<ExamTotal> getExamTotalByEid(Fenye<ExamTotal> fenye) {
 		// TODO Auto-generated method stub
-
-		return examTotalDao.getExamTotalByEid(eid);
+		List<ExamTotal> examTotalByEid = examTotalDao.getExamTotalByEid(fenye);
+		Integer total=examTotalDao.getCountExamTotalByEid(fenye);
+		fenye.setRows(examTotalByEid);
+		fenye.setTotal(total);
+		return fenye;
 	}
 
 	/**
@@ -48,6 +52,7 @@ public class ExamTotalServiceImp implements ExamTotalService {
 	@Override
 	public Integer delTotalById(Integer id,String answerid) {
 		// TODO Auto-generated method stub
+		System.out.println("试题删除");
 		Integer i=null;
 		
 		i=examTotalDao.delTotalById(id);
@@ -58,5 +63,6 @@ public class ExamTotalServiceImp implements ExamTotalService {
 	
 		return i;
 	}
+
 
 }
