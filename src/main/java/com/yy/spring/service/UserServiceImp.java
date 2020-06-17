@@ -68,6 +68,9 @@ public class UserServiceImp implements UserService {
 			if (ResultFinalString.USERTLOGIN_TECAHERFIRSTANDSCEND.equals(username.substring(0, 2))) {
 				LOGINMESSAGER = ResultFinalString.USERTLOGINLOGINSUCCESS_TEACHER;
 			}
+			if(ResultFinalString.USERTLOGIN_ADMINSTARTANDEND.equals("admin")) {
+				LOGINMESSAGER=ResultFinalString.USERTLOGIN_USER_SYSTEM;
+			}
 		} catch (UnknownAccountException e) {
 			// 登陆失败:用户名不存在
 			LOGINMESSAGER = ResultFinalString.USERTLOGIN_USER_ISNULL;

@@ -35,6 +35,12 @@ $(function() {
 														{
 															title : node.text,
 															closable: true,
+															 tools:[{
+																	iconCls:'icon-mini-refresh',
+																	handler:function(){
+																		alert('refresh');
+																	}
+															    }],
 															content : "<iframe src='"
 																	+ node.path
 																	+ "?mid="+node.id+"' style='width:100%;height:600px;'/>"

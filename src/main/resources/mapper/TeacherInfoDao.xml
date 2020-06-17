@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yy.spring.dao.TeacherInfoDao">
+	<select id="selectTeacherInfo" parameterType="fenye"
+		resultType="TeacherInfo">
+		select
+		id,teacherid,teachername,teacherbirthday,teachersex,teachergradeprofession,teachergradeid,teachergradename
+		FROM `teacherinfo`
+		<where>
+			<if
+				test="teacherInfo.teachername !=null and teacherInfo.teachername !='' ">
+				and teachername like "%"#{teacherInfo.teachername}"%"
+			</if>
+			<if test="minbirthday !=null and minbirthday !='' ">
+				and teacherbirthday &gt;=#{minbirthday}
+			</if>
+			<if test="maxbirthday !=null and maxbirthday !=''">
+				and teacherbirthday &lt;=#{maxbirthday}
+			</if>
+			<if test="teacherInfo.teachersex !=null and teacherInfo.teachersex !=''">
+				and teachersex =#{teacherInfo.teachersex}
+			</if>
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="selectTeacherInfoCount" parameterType="fenye"
+		resultType="_int">
+		SELECT count(id) FROM `teacherinfo`
+		<where>
+			<if
+				test="teacherInfo.teachername !=null and teacherInfo.teachername !='' ">
+				and teachername like "%"#{teacherInfo.teachername}"%"
+			</if>
+			<if test="minbirthday !=null and minbirthday !='' ">
+				and teacherbirthday &gt;=#{minbirthday}
+			</if>
+			<if test="maxbirthday !=null and maxbirthday !=''">
+				and teacherbirthday &lt;=#{maxbirthday}
+			</if>
+			<if
+				test="teacherInfo.teachersex !=null and teacherInfo.teachersex !=''">
+				and teachersex =#{teacherInfo.teachersex}
+			</if>
+		</where>
+	</select>
+</mapper>

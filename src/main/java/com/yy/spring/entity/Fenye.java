@@ -2,6 +2,8 @@ package com.yy.spring.entity;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+@Component
 public class Fenye<T> {
 private Integer page;
 private Integer pageSize;
@@ -11,7 +13,12 @@ private List<T> rows;
 
 //试卷编号
 private Integer eid;
-
+//最大时间
+private String maxbirthday;
+//最小时间
+private String minbirthday;
+//教师信息
+private TeacherInfo teacherInfo;
 public Integer getEid() {
 	return eid;
 }
@@ -41,6 +48,24 @@ public List<T> getRows() {
 }
 public void setRows(List<T> rows) {
 	this.rows = rows;
+}
+public String getMaxbirthday() {
+	return maxbirthday;
+}
+public void setMaxbirthday(String maxbirthday) {
+	this.maxbirthday = maxbirthday;
+}
+public String getMinbirthday() {
+	return minbirthday;
+}
+public void setMinbirthday(String minbirthday) {
+	this.minbirthday = minbirthday;
+}
+public TeacherInfo getTeacherInfo() {
+	return teacherInfo;
+}
+public void setTeacherInfo(TeacherInfo teacherInfo) {
+	this.teacherInfo = teacherInfo;
 }
 
 }

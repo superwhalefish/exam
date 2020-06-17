@@ -26,15 +26,23 @@ public class FreemarkerController {
 	public String teacherindex() {
 		return "/teacher/index";
 	}
-	@RequestMapping(value = "/teacher/system")
+	@RequestMapping(value = "/system/index")
 	public String teachersystem() {
-		return "/teacher/system";
+		return "/system/index";
+	}
+	
+	@RequestMapping(value = "/system/teacherinfo")
+	public String systemteacherinfo() {
+		System.out.println("freemark模板跳转");
+		//return "system/teacherinfo";
+		return "/system/teacherinfo";
 	}
 	//git更新
 	@RequestMapping(value = "/student/index")
 	public String studentindex() {
 		return "/student/index";
 	}
+
 	@RequestMapping(value = "/student/exam")
 	public String studentexam() {
 		return "/student/exam";
@@ -64,5 +72,8 @@ public class FreemarkerController {
 	public String shuxue() {
 		return "/teacher/shuxue";
 	}
-
+	@RequestMapping("/404")
+	public String nofind() {
+		return "/404";
+	}
 }

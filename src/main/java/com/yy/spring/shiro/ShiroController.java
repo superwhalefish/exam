@@ -39,8 +39,7 @@ public class ShiroController {
 		//拦截页面
 		filterMap.put("/student/*", "authc");
 		filterMap.put("/teacher/*", "authc");
-		
-		
+		filterMap.put("/system/*", "authc");
 		//修改跳转页面
 		shiroFilterFactoryBean.setLoginUrl("/tologin");
 		//无权限访问页面

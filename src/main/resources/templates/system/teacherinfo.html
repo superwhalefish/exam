@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教师信息</title>
+<link rel="stylesheet" href="/MyTest/js/easyui/themes/icon.css" />
+<link rel="stylesheet"
+	href="/MyTest/js/easyui/themes/default/easyui.css" />
+<script type="text/javascript" src="/MyTest/js/easyui/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/MyTest/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+
+<script>
+$(function(){
+	init();
+})
+
+function init(){
+	$('#dg').datagrid({
+	    url:'/MyTest/teacherinfo/selectteacherinfo',
+	    queryParams: {
+	    	teachername: $("#teachername").val(),
+	    	maxbirthday: $("#maxbirthday").datebox("getValue"),
+	    	minbirthday:  $("#minbirthday").datebox("getValue"),
+	    	teachersex: $("#teachersex").combobox("getValue"),
+		},
+		id:"teacherinfo",
+		fixed:true,
+		method : 'post',
+		pagination : true,
+		fitColumns : true,
+		toolbar:"#teacherinfotoolbar",
+		singleSelect : true,
+	    columns:[[
+			{field:'id',title:'编号'},
+			{field:'teachername',title:'姓名'},
+			{field:'teachersex',title:'性别'},
+			{field:'teacherbirthday',title:'生日'},
+			{field:'teachergradeprofession',title:'职业'},
+			{field:'teachergradename',title:'带班'},
+			{field:'caosadzuo',title:'操作',formatter:caozuoformatter}
+	    ]]
+	});
+}
+
+function caozuoformatter(value,index,row){
+	return "<a href='javascript:teacherinfolook("+index+")'>查看</a>  <a href='javascript:teacherinfoedit("+index+")'>编辑</a> <a href='javascript:teacherinfodel("+index+")'>删除</a>";
+}
+
+function teacherinfolook(index){
+	var row=$('#dg').datagrid("getData").rows[index];
+}
+</script>
+<body>
+<div id="teacherinfotoolbar">
+姓名：<input class="easyui-textbox" id="teachername" value="" >
+性别：<select id="teachersex" class="easyui-combobox" style="width:80px;">
+    <option value="">--请选择--</option>
+    <option value="男">男</option>
+    <option value="女">女</option>
+</select>
+生日:<input id="minbirthday" type="text" class="easyui-datebox" required="required">~<input id="maxbirthday" type="text" class="easyui-datebox" required="required">
+   <a href="javascript:init()" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true">搜索</a>
+</div>
+<table id="dg"></table>
+</body>
+</html>

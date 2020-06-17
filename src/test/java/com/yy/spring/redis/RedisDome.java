@@ -29,6 +29,10 @@ public class RedisDome {
 		jedis.set("sName", "1好连接");
 		String sName = jedis.get("sName");
 		System.out.println(sName);
+		System.out.println("删除");
+		jedis.del("sName");
+		System.out.println("查询");
+		System.out.println(jedis.get("sName"));
 		jedis.close();
 	}
 
@@ -63,5 +67,10 @@ public class RedisDome {
 			jedis.hset(key, "name", name);
 			System.out.println("数据库查询：id:"+id+"name:"+name);
 		}
+	}
+	@Test
+	public void name() {
+		int a = 3,b=4;
+		System.out.println(a-=--b);
 	}
 }
