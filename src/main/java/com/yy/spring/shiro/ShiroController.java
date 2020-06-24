@@ -40,7 +40,7 @@ public class ShiroController {
 		filterMap.put("/student/*", "authc");
 		filterMap.put("/teacher/*", "authc");
 		filterMap.put("/system/*", "authc");
-		//修改跳转页面
+		//无用户登录跳转页面
 		shiroFilterFactoryBean.setLoginUrl("/tologin");
 		//无权限访问页面
 		shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
